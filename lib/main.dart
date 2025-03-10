@@ -19,30 +19,34 @@ class Plan {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // Using soft complementary colors in the theme.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Adoption & Travel Plans',
+      title: 'Planner App',
       theme: ThemeData(
         primaryColor: Colors.lightBlue[200],
-        scaffoldBackgroundColor: Color(0xFFFFF8E1), // soft cream
+        scaffoldBackgroundColor: const Color(0xFFFFF8E1), // soft cream
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.lightBlue[200],
-          titleTextStyle: TextStyle(fontSize: 20, color: Colors.white),
-          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
       ),
-      home: PlanManagerScreen(),
+      home: const PlanManagerScreen(),
     );
   }
 }
 
 class PlanManagerScreen extends StatefulWidget {
+  const PlanManagerScreen({super.key});
+
   @override
   _PlanManagerScreenState createState() => _PlanManagerScreenState();
 }
@@ -126,13 +130,14 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                     initialValue: name,
                     decoration: InputDecoration(
                       labelText: 'Plan Name',
-                      labelStyle: TextStyle(color: Colors.blueGrey),
+                      labelStyle: const TextStyle(color: Colors.blueGrey),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.blueGrey),
                       ),
                     ),
-                    validator: (value) =>
-                        (value == null || value.isEmpty) ? 'Enter plan name' : null,
+                    validator: (value) => (value == null || value.isEmpty)
+                        ? 'Enter plan name'
+                        : null,
                     onChanged: (value) {
                       name = value;
                     },
@@ -142,7 +147,7 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                     initialValue: description,
                     decoration: InputDecoration(
                       labelText: 'Description',
-                      labelStyle: TextStyle(color: Colors.blueGrey),
+                      labelStyle: const TextStyle(color: Colors.blueGrey),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.blueGrey),
                       ),
@@ -151,7 +156,7 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                       description = value;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Date Selector Row.
                   Row(
                     children: [
@@ -160,11 +165,13 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                           selectedDate != null
                               ? selectedDate!.toLocal().toString().split(' ')[0]
                               : 'Select Date',
-                          style: TextStyle(color: Colors.blueGrey, fontSize: 16),
+                          style: const TextStyle(
+                              color: Colors.blueGrey, fontSize: 16),
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.calendar_today, color: Colors.blueGrey),
+                        icon: const Icon(Icons.calendar_today,
+                            color: Colors.blueGrey),
                         onPressed: () async {
                           DateTime now = DateTime.now();
                           DateTime? pickedDate = await showDatePicker(
@@ -182,13 +189,13 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Priority Dropdown.
                   DropdownButtonFormField<PlanPriority>(
                     value: selectedPriority,
                     decoration: InputDecoration(
                       labelText: 'Priority',
-                      labelStyle: TextStyle(color: Colors.blueGrey),
+                      labelStyle: const TextStyle(color: Colors.blueGrey),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.blueGrey),
                       ),
@@ -197,7 +204,7 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                       return DropdownMenuItem(
                         value: priority,
                         child: Text(priority.toString().split('.').last,
-                            style: TextStyle(color: Colors.blueGrey)),
+                            style: const TextStyle(color: Colors.blueGrey)),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -212,20 +219,22 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
           ),
           actions: [
             TextButton(
-              child: Text('Cancel', style: TextStyle(color: Colors.blueGrey)),
+              child: const Text('Cancel',
+                  style: TextStyle(color: Colors.blueGrey)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.lightBlue[200]),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue[200]),
               child: Text(plan == null ? 'Add Plan' : 'Update Plan'),
               onPressed: () {
                 if (formKey.currentState!.validate() && selectedDate != null) {
                   final newPlan = Plan(
                     name: name,
                     description: description,
-                    date: selectedDate!,
+                    date: selectedDate!, // non-null assertion
                     priority: selectedPriority,
                   );
                   if (plan == null) {
@@ -246,8 +255,8 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
   // Build an interactive calendar banner.
   Widget _buildCalendarBanner() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      padding: EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.teal[100],
         borderRadius: BorderRadius.circular(8),
@@ -263,12 +272,12 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           // Display the days as a grid.
           GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
               childAspectRatio: 1.2,
             ),
@@ -286,18 +295,22 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                       backgroundColor: Colors.teal[200],
                       content: Text(
                         'Updated "${plan.name}" to ${DateTime(currentYear, currentMonth, day).toLocal().toString().split(' ')[0]}',
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   );
                 },
                 builder: (context, candidateData, rejectedData) {
                   return Container(
-                    margin: EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
-                      color: candidateData.isNotEmpty ? Colors.teal[200] : Colors.white,
+                      color: candidateData.isNotEmpty
+                          ? Colors.teal[200]
+                          : Colors.white,
                       border: Border.all(
-                        color: candidateData.isNotEmpty ? Colors.blue : Colors.grey.shade400,
+                        color: candidateData.isNotEmpty
+                            ? Colors.blue
+                            : Colors.grey.shade400,
                       ),
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -305,7 +318,9 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                       child: Text(
                         '$day',
                         style: TextStyle(
-                          color: candidateData.isNotEmpty ? Colors.white : Colors.grey[800],
+                          color: candidateData.isNotEmpty
+                              ? Colors.white
+                              : Colors.grey[800],
                         ),
                       ),
                     ),
@@ -343,13 +358,13 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adoption & Travel Plans'),
+        title: const Text('Adoption & Travel Plans'),
       ),
       body: Column(
         children: [
           // Calendar banner section.
           _buildCalendarBanner(),
-          Divider(color: Colors.blueGrey),
+          Divider(color: Colors.blueGrey.shade400),
           // Plan list section.
           Expanded(
             child: ListView.builder(
@@ -361,14 +376,14 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                   background: Container(
                     color: Colors.lightGreen,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 16),
-                    child: Icon(Icons.check, color: Colors.white),
+                    padding: const EdgeInsets.only(left: 16),
+                    child: const Icon(Icons.check, color: Colors.white),
                   ),
                   secondaryBackground: Container(
                     color: Colors.redAccent,
                     alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(right: 16),
-                    child: Icon(Icons.delete, color: Colors.white),
+                    padding: const EdgeInsets.only(right: 16),
+                    child: const Icon(Icons.delete, color: Colors.white),
                   ),
                   // Swipe right toggles completion.
                   confirmDismiss: (direction) async {
@@ -390,14 +405,14 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
                     child: Draggable<Plan>(
                       data: plan,
                       feedback: Material(
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: _buildPlanCard(plan),
                         ),
                       ),
                       childWhenDragging: Opacity(
                         opacity: 0.5,
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: _buildPlanCard(plan),
                         ),
@@ -414,7 +429,7 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlue[200],
         onPressed: () => _showPlanDialog(),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -424,10 +439,11 @@ class _PlanManagerScreenState extends State<PlanManagerScreen> {
     Color cardColor = plan.isCompleted ? Colors.green.shade50 : Colors.white;
     return Card(
       elevation: 2,
-      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       color: cardColor,
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         title: Text(
           plan.name,
           style: TextStyle(
